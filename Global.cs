@@ -1,0 +1,14 @@
+﻿global using System;
+global using System.Collections.Generic;
+global using System.Linq;
+global using System.Text;
+global using System.Threading.Tasks;
+global using CommunityToolkit.Mvvm;
+global using Newtonsoft.Json;
+global using CommunityToolkit.Mvvm.ComponentModel;
+global using System.Collections.ObjectModel;
+global using FinaleProject.Model;
+global using FinaleProject.View;
+global using FinaleProject.ViewModel;
+global using FinaleProject;
+global using CommunityToolkit.Mvvm.Input;

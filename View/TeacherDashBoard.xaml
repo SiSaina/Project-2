@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FinaleProject.View.TeacherDashBoard"
+             xmlns:ViewModel="clr-namespace:FinaleProject.ViewModel"
+             xmlns:Model="clr-namespace:FinaleProject.Model"
+             Title="TeacherDashBoard"
+             x:DataType="ViewModel:TeacherViewModel"
+             Padding="0,50,0,0">
+
+    <FlexLayout Direction="Column" AlignItems="Center">
+        <Entry Text="{Binding Text}" WidthRequest="300" Placeholder="Section name"/>
+        <Grid ColumnDefinitions="auto,auto">
+            <Button Text="Add section" WidthRequest="150" BorderColor="White" BorderWidth="2"
+                    Margin="10" Command="{Binding AddCommand}"/>
+            <Button Text="Save" WidthRequest="100" BorderColor="White" BorderWidth="2" 
+                    Margin="10" Command="{Binding SaveCommand}" Grid.Column="1"/>
+        </Grid>
+        <CollectionView ItemsSource="{Binding Bank.Sections}" Margin="10" WidthRequest="500" HeightRequest="650">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="Model:Section">
+                    <Grid RowDefinitions="*,*">
+                        <Border Stroke="White" StrokeShape="RoundRectangle 10" Padding="20,10,10,10">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer 
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModel:TeacherViewModel}}, Path=NavigateForwardCommand}"
+                                        CommandParameter="{Binding Id}"/>
+                            </Border.GestureRecognizers>
+                            <Grid ColumnDefinitions="auto,*,auto" RowDefinitions="*,*" ColumnSpacing="10">
+                                <Label Text="{Binding Name}" FontSize="24" Grid.RowSpan="2" VerticalOptions="Center"/>
+                                <Label Text="Question: " TextColor="#00B4D8" Margin="10,0,0,0"
+                                       VerticalOptions="Center" HorizontalOptions="End" Grid.Column="1"/>
+                                <Label Text="{Binding Questions.Count}" Margin="10,0,0,0"
+                                       VerticalOptions="Center" HorizontalOptions="End" Grid.Column="2"/>
+                                <Label Text="Quizzes: " TextColor="#00B4D8" Margin="10,0,0,0"
+                                       VerticalOptions="Center" HorizontalOptions="End" Grid.Row="1" Grid.Column="1"/>
+                                <Label Text="{Binding Quizzes.Count}" Margin="10,0,0,0"
+                                       VerticalOptions="Center" HorizontalOptions="End" Grid.Row="1" Grid.Column="2"/>
+                            </Grid>
+                        </Border>
+                        <Grid ColumnDefinitions="*,*" Margin="10,10,10,30" Grid.Row="1">
+                            <Button Text="Modify" BorderColor="White" BorderWidth="1" 
+                                    WidthRequest="100" BackgroundColor="#00B4D8"
+                                    CommandParameter="{Binding .}"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModel:TeacherViewModel}}, Path=ModifyCommand}"/>
+                            <Button Text="Remove" BorderColor="White" BorderWidth="1" 
+                                    WidthRequest="100" BackgroundColor="#E52B50" Grid.Column="1"
+                                    CommandParameter="{Binding .}"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModel:TeacherViewModel}}, Path=DeleteCommand}"/>
+                        </Grid>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        <Button Text="Logout" WidthRequest="100" BorderColor="White" BorderWidth="2" Command="{Binding LogoutCommand}"/>
+    </FlexLayout>
+</ContentPage>

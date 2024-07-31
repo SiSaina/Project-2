@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FinaleProject.View.MainPage"
+             xmlns:local="clr-namespace:FinaleProject.ViewModel"
+             x:DataType="local:MainViewModel">
+    
+    <Border VerticalOptions="Center" HorizontalOptions="Center" WidthRequest="350" HeightRequest="500" Background="White" StrokeShape="RoundRectangle 20">
+        <Grid RowDefinitions="*,*,*,*,*">
+            <Grid RowDefinitions="*,*">
+                <Label Text="Login" FontAttributes="Bold" FontSize="35" TextColor="Black" HorizontalOptions="Center" VerticalOptions="Center"/>
+                <Rectangle HeightRequest="3" Margin="0,0,0,25" Background="Black" Grid.Row="1"/>
+            </Grid>
+            <Border Grid.Row="1" StrokeShape="RoundRectangle 5" Background="White" Margin="15">
+                <Grid HeightRequest="50" ColumnDefinitions="auto,auto,*" Margin="5">
+                    <Image WidthRequest="30" HeightRequest="30" Margin="5,0" Source="iman.png"/>
+                    <Rectangle WidthRequest="2" Margin="0,5" Background="Black" Grid.Column="1"/>
+                    <Entry Text="{Binding Num}" TextColor="Black" Placeholder="Student Id" PlaceholderColor="MediumPurple" Grid.Column="2"/>
+                </Grid>
+            </Border>
+            <Border Grid.Row="2" StrokeShape="RoundRectangle 5" Background="White" Margin="15">
+                <Grid HeightRequest="50" ColumnDefinitions="auto,auto,*" Margin="5">
+                    <Image WidthRequest="30" HeightRequest="30" Margin="5,0" Source="user_icon.png"/>
+                    <Rectangle WidthRequest="2" Margin="0,5" Background="Black" Grid.Column="1"/>
+                    <Entry Text="{Binding Text}" TextColor="Black" Placeholder="Username" PlaceholderColor="MediumPurple" Grid.Column="2"/>
+                </Grid>
+            </Border>
+            <Border Grid.Row="3" StrokeShape="RoundRectangle 5" Background="White" Margin="15">
+                <Grid HeightRequest="50" ColumnDefinitions="auto,auto,*" Margin="5">
+                    <Image WidthRequest="30" HeightRequest="30" Margin="5,0" Source="lock_icon.jpg"/>
+                    <Rectangle WidthRequest="2" Margin="0,5" Background="Black" Grid.Column="1"/>
+                    <Entry Text="{Binding Pass}" IsPassword="True" TextColor="Black" Placeholder="Password" PlaceholderColor="MediumPurple" Grid.Column="2"/>
+                </Grid>
+            </Border>
+            <Grid Grid.Row="4" ColumnDefinitions="*,*" Margin="10,0,10,20" HorizontalOptions="Fill">
+                <Button BackgroundColor="#ab52c5" TextColor="White" BorderColor="Black" BorderWidth="0.5" Text="Sign in" HeightRequest="50" Margin="5"
+                        Command="{Binding SignInCommand}" CommandParameter="{Binding Num}"/>
+                <Button BackgroundColor="#ab52c5" TextColor="White" BorderColor="Black" BorderWidth="0.5" Text="Sign up" HeightRequest="50" Margin="5" Grid.Column="1"
+                        Command="{Binding SignUpCommand}"/>
+            </Grid>
+        </Grid>
+        <Border.Shadow>
+            <Shadow Brush="White" Offset="15,15" Radius="10" Opacity="0.5"/>
+        </Border.Shadow>
+    </Border>
+</ContentPage>

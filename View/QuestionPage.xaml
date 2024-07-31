@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FinaleProject.View.QuestionPage"
+             Title="Question Page"
+             xmlns:ViewModel="clr-namespace:FinaleProject.ViewModel"
+             xmlns:Model="clr-namespace:FinaleProject.Model"
+             x:DataType="ViewModel:QuestionViewModel">
+    <FlexLayout Direction="Column" Margin="10" WidthRequest="600">
+        <Border Stroke="White" StrokeShape="RoundRectangle 10" Margin="0,0,0,10" Padding="10">
+            <Grid ColumnDefinitions="auto,auto,auto">
+                <Label Text="{Binding Question.Id}" FontSize="18"/>
+                <Label Text="." FontSize="18" Grid.Column="1"/>
+                <ScrollView Grid.Column="2" Margin="10,0,0,0">
+                    <Label Text="{Binding Question.Title}" FontSize="18"/>
+                </ScrollView>
+            </Grid>
+        </Border>
+        <Grid ColumnDefinitions="*,auto,auto" Padding="0" Margin="5" ColumnSpacing="10">
+            <Entry Text="{Binding Text}" Placeholder="Answers"/>
+            <Button Text="Normal" WidthRequest="100" Grid.Column="1" Command="{Binding AddAnswerCommand}"/>
+            <Button Text="Correct" WidthRequest="100" Grid.Column="2" Command="{Binding AddCorrectAnswerCommand}"/>
+        </Grid>
+        <Label Text="Correct answers" FontSize="24" Margin="2,0,0,2" TextColor="SkyBlue"/>
+        <CollectionView ItemsSource="{Binding Question.CorrectAnswer}" Margin="0,0,0,5">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid ColumnDefinitions="*,auto,auto">
+                        <Border Stroke="White" StrokeShape="RoundRectangle 10" Margin="0,10,5,0" Padding="5">
+                            <Label Text="{Binding}" FontSize="20" Margin="10,0,0,0" VerticalTextAlignment="Center"/>
+                        </Border>
+                        <Button Text="Remove" WidthRequest="85" Grid.Column="2" Margin="0,10,5,0" CommandParameter="{Binding .}"
+                            Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModel:QuestionViewModel}}, Path=DeleteCorrectAnswerCommand}"/>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        <Label Text="Normal answers" FontSize="22" Margin="2,0,0,2" TextColor="Red"/>
+        <CollectionView ItemsSource="{Binding Question.Answer}" Margin="0,0,0,5">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid ColumnDefinitions="*,auto,auto">
+                        <Border Stroke="White" StrokeShape="RoundRectangle 10" Margin="0,10,5,0" Padding="5">
+                            <Label Text="{Binding}" FontSize="20" Margin="10,0,0,0" VerticalTextAlignment="Center"/>
+                        </Border>
+                        <Button Text="Remove" WidthRequest="85" Grid.Column="2" Margin="0,10,5,0" CommandParameter="{Binding .}"
+                            Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModel:QuestionViewModel}}, Path=DeleteAnswerCommand}"/>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        <Grid ColumnDefinitions="*,*">
+            <Button Text="DashBoard" WidthRequest="150" Command="{Binding NavigateDashBoardCommand}"/>
+            <Button Text="Back" WidthRequest="150" Grid.Column="1" Command="{Binding NavigateBackCommand}"/>
+        </Grid>
+    </FlexLayout>
+</ContentPage>

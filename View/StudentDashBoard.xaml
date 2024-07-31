@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FinaleProject.View.StudentDashBoard"
+             xmlns:ViewModel="clr-namespace:FinaleProject.ViewModel"
+             x:DataType="ViewModel:StudentViewModel"
+             xmlns:Model="clr-namespace:FinaleProject.Model">
+    <ContentPage.Resources>
+        <Style x:Key="LabelNavStyle" TargetType="Label">
+            <Setter Property="FontSize" Value="26"/>
+        </Style>
+        <Style x:Key="LabelText" TargetType="Label">
+            <Setter Property="FontSize" Value="26"/>
+        </Style>
+        <Style x:Key="LabelTextTwo" TargetType="Label">
+            <Setter Property="FontSize" Value="18"/>
+        </Style>
+        <Style x:Key="Button" TargetType="Button">
+            <Setter Property="WidthRequest" Value="100"/>
+            <Setter Property="BorderColor" Value="White"/>
+            <Setter Property="BorderWidth" Value="2"/>
+        </Style>
+        <Style x:Key="Title" TargetType="Label">
+            <Setter Property="FontSize" Value="22"/>
+        </Style>
+        <Style x:Key="LabelTextThree" TargetType="Label">
+            <Setter Property="FontSize" Value="22"/>
+            <Setter Property="HorizontalOptions" Value="Center"/>
+            <Setter Property="VerticalOptions" Value="Center"/>
+            <Setter Property="FontAttributes" Value="Bold"/>
+        </Style>
+        <Style x:Key="LabelTextFour" TargetType="Label">
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="HorizontalOptions" Value="Center"/>
+            <Setter Property="VerticalOptions" Value="Center"/>
+        </Style>
+    </ContentPage.Resources>
+    <Grid RowDefinitions="auto,*">
+        <Border Stroke="White" StrokeThickness="2" Padding="30,0,30,0" IsVisible="{Binding IsNav}">
+            <Grid HeightRequest="100" ColumnDefinitions="*,*">
+                <Label Text="Home" FontAttributes="Bold" FontSize="30" VerticalOptions="Center"/>
+                <FlexLayout JustifyContent="SpaceAround" AlignItems="Center" Grid.Column="1">
+                    <Label Text="Home" Style="{StaticResource LabelNavStyle}">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding NavigateBetweenCommand}" CommandParameter="Home"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                    <Label Text="Start" Style="{StaticResource LabelNavStyle}">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding NavigateBetweenCommand}" CommandParameter="Start"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                    <Label Text="History" Style="{StaticResource LabelNavStyle}">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding NavigateBetweenCommand}" CommandParameter="History"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                    <Label Text="LeaderBoard" Style="{StaticResource LabelNavStyle}">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding NavigateBetweenCommand}" CommandParameter="LeaderBoard"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                    <Label Text="Setting" Style="{StaticResource LabelNavStyle}">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding NavigateBetweenCommand}" CommandParameter="Setting"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                    <Label Text="Log out" Style="{StaticResource LabelNavStyle}">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding NavigateBetweenCommand}" CommandParameter="Logout"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                </FlexLayout>
+            </Grid>
+        </Border>
+        <Grid Padding="20" ColumnDefinitions="*,*" Grid.Row="1" IsVisible="{Binding IsHomePage}">
+            <VerticalStackLayout Spacing="10" VerticalOptions="Center" Margin="0,0,0,50">
+                <HorizontalStackLayout Margin="0,20,20,20" Spacing="10">
+                    <Label Text="Welcome!!" Style="{StaticResource LabelText}"/>
+                    <Label Text="{Binding Student.Username}" TextTransform="Uppercase" TextColor="Aquamarine" Style="{StaticResource LabelText}"/>
+                    <Label Text="To our Quiz Game!" Style="{StaticResource LabelText}"/>
+                </HorizontalStackLayout>
+                <Label Text="Get set to explore different subjects like Math, Chemistry, Literature, and History in our exciting quiz game!"
+                   Style="{StaticResource LabelTextTwo}"/>
+                <Label Text="Answer questions, learn new things, and see how much you know about various topics. It's a great way to challenge yourself and have a blast at the same time."
+                   Style="{StaticResource LabelTextTwo}"/>
+                <Label Text="Are you ready to dive in and play? Let's get started!"
+                   Style="{StaticResource LabelTextTwo}"/>
+                <Button Text="Let's go" BorderColor="White" BorderWidth="2" Margin="0,10,0,0" WidthRequest="100" HorizontalOptions="Start" Command="{Binding NavigateToSectionCommand}"/>
+            </VerticalStackLayout>
+            <Border Grid.Column="1">
+                <Label Text="Insert picture" VerticalOptions="Center" HorizontalOptions="Center" FontSize="24"/>
+            </Border>
+        </Grid>
+        <Grid Margin="30" RowDefinitions="auto,*" IsVisible="{Binding IsSectionPage}">
+            <Border Stroke="White" StrokeThickness="2" HeightRequest="100" Padding="30,0,30,0">
+                <Label Text="Choose Subject" FontSize="30" Style="{StaticResource LabelTextThree}"/>
+            </Border>
+            <Grid ColumnDefinitions="*,*" Grid.Row="1" HeightRequest="800" Margin="10">
+                <Border>
+                    <Label Text="Insert picture" VerticalOptions="Center" HorizontalOptions="Center" FontSize="24"/>
+                </Border>
+                <Grid RowDefinitions="auto,*" Grid.Column="1" HeightRequest="800">
+                    <FlexLayout Direction="Column" JustifyContent="Start" AlignItems="Center" Margin="10">
+                        <Label Text="Choose your subject"/>
+                        <CollectionView ItemsSource="{Binding Bank.Sections}">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="Model:Section">
+                                    <Button Text="{Binding Name}" Margin="0,10,0,10" HorizontalOptions="Start" WidthRequest="300" BorderColor="White" BorderWidth="2" CornerRadius="20"
+                                    CommandParameter="{Binding Name}"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModel:StudentViewModel}}, Path=NavigateToQuizCommand}"/>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </FlexLayout>
+                    <Button VerticalOptions="End" HorizontalOptions="End" WidthRequest="100" Text="Back" BorderColor="White" BorderWidth="2" Grid.Row="1"
+                            Command="{Binding BackCommand}" CommandParameter="Subject"/>
+                </Grid>
+
+            </Grid>
+        </Grid>
+        <Grid Margin="30" RowDefinitions="auto,*" IsVisible="{Binding IsQuizPage}">
+            <Border Stroke="White" StrokeThickness="2" HeightRequest="100" Padding="30,0,30,0">
+                <HorizontalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="10">
+                    <Label Text="{Binding ShowSection.Name}" FontAttributes="Bold" FontSize="30"/>
+                    <Label Text="Subject" FontSize="30"/>
+                </HorizontalStackLayout>
+            </Border>
+            <Grid ColumnDefinitions="*,*" Grid.Row="1" HeightRequest="800" Margin="10">
+                <Border>
+                    <Label Text="Insert picture" VerticalOptions="Center" HorizontalOptions="Center" FontSize="24"/>
+                </Border>
+                <Grid RowDefinitions="auto,*" Grid.Column="1" HeightRequest="800">
+                    <FlexLayout Direction="Column" JustifyContent="Start" AlignItems="Center" Grid.Column="1" Margin="10">
+                        <Label Text="Choose your quiz"/>
+                        <CollectionView ItemsSource="{Binding ShowSection.Quizzes}">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="Model:Quiz">
+                                    <Button Text="{Binding Name}" Margin="0,10,0,10" HorizontalOptions="Start" WidthRequest="300" BorderColor="White" BorderWidth="2" CornerRadius="20"
+                                    CommandParameter="{Binding Name}"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModel:StudentViewModel}}, Path=NavigateToPageCommand}"/>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </FlexLayout>
+                    <Button VerticalOptions="End" HorizontalOptions="End" WidthRequest="100" Text="Back" BorderColor="White" BorderWidth="2" Grid.Row="1"
+                            Command="{Binding BackCommand}"/>
+                </Grid>
+            </Grid>
+        </Grid>
+        <Grid RowDefinitions="auto,*" IsVisible="{Binding IsQuestionPage}">
+            <Border Stroke="White" StrokeThickness="2" HeightRequest="100" Padding="30,0,30,0">
+                <HorizontalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="10">
+                    <Label Text="{Binding ShowQuiz.Name}" FontAttributes="Bold" FontSize="30"/>
+                    <Label Text="Quiz" FontSize="30"/>
+                </HorizontalStackLayout>
+            </Border>
+            <Grid Margin="10" VerticalOptions="Start" HeightRequest="850" ColumnDefinitions="*,*" Grid.Row="1">
+                <Grid Margin="10" RowDefinitions="auto,auto,auto,auto">
+                    <Grid ColumnDefinitions="auto,auto,auto">
+                        <Label Text="Title" Style="{StaticResource Title}"/>
+                        <Label Text=")" Style="{StaticResource Title}" Grid.Column="1" Margin="0,0,10,0"/>
+                        <Label Text="{Binding CurrentQuestion.Title}" Style="{StaticResource Title}" Grid.Column="2"/>
+                    </Grid>
+                    <FlexLayout Direction="Column" Grid.Row="1" Margin="10">
+                        <CollectionView ItemsSource="{Binding ShuffledAllAnswers}">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid ColumnDefinitions="auto,auto">
+                                        <Label Text="{Binding}" FontSize="20" VerticalOptions="Center" Grid.Column="1"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </FlexLayout>
+                    <Entry Placeholder="Answer" Text="{Binding Text}" Grid.Row="2" Margin="10"/>
+                    <Grid ColumnDefinitions="*,*,*" Grid.Row="3">
+                        <Button Text="Start" Style="{StaticResource Button}" Command="{Binding StartQuestionCommand}" IsEnabled="{Binding IsStartButtonEnabled}"/>
+                        <Button Text="Submit" Style="{StaticResource Button}" Command="{Binding SubmitCommand}" Grid.Column="2"/>
+                    </Grid>
+                </Grid>
+                <Border Grid.Column="1">
+                    <Label Text="Insert picture" VerticalOptions="Center" HorizontalOptions="Center" FontSize="24"/>
+                </Border>
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="1" RowDefinitions="auto,*" Padding="100" IsVisible="{Binding IsHistoryPage}">
+            <Button Text="Refresh" HorizontalOptions="End" WidthRequest="100" BorderColor="White" BorderWidth="2" Margin="0,0,0,10"
+            Command="{Binding RefreshCommand}" CommandParameter="History"/>
+            <Border Stroke="White" StrokeThickness="2" Grid.Row="1">
+                <Grid RowDefinitions="auto,*">
+                    <Grid RowDefinitions="auto,auto">
+                        <Grid HeightRequest="75" ColumnDefinitions="*,1.5*">
+                            <Grid ColumnDefinitions="*,*">
+                                <Label Text="Name" Style="{StaticResource LabelTextThree}"/>
+                                <Label Text="Description" Style="{StaticResource LabelTextThree}" Grid.Column="1"/>
+                            </Grid>
+                            <Grid ColumnDefinitions="*,*,*,*" Grid.Column="1">
+                                <Label Text="Section" Style="{StaticResource LabelTextThree}"/>
+                                <Label Text="Quiz" Style="{StaticResource LabelTextThree}" Grid.Column="1"/>
+                                <Label Text="Score" Style="{StaticResource LabelTextThree}" Grid.Column="2"/>
+                                <Label Text="Date" Style="{StaticResource LabelTextThree}" Grid.Column="3"/>
+                            </Grid>
+                        </Grid>
+                        <Rectangle Stroke="White" HeightRequest="2" Grid.Row="1"/>
+                    </Grid>
+                    <FlexLayout HeightRequest="550" Direction="Column" Grid.Row="1">
+                        <CollectionView ItemsSource="{Binding Att}">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="Model:Attempt">
+                                    <Grid HeightRequest="75" ColumnDefinitions="*,1.5*">
+                                        <Grid ColumnDefinitions="*,*">
+                                            <Label Text="{Binding Student.Username}" Style="{StaticResource LabelTextFour}" FontSize="28"/>
+                                            <Label Text="Good student" Style="{StaticResource LabelTextFour}" Grid.Column="1"/>
+                                        </Grid>
+                                        <Grid ColumnDefinitions="*,*,*,*" Grid.Column="1">
+                                            <Label Text="{Binding SectionName}" Style="{StaticResource LabelTextFour}"/>
+                                            <Label Text="{Binding QuizName}" Style="{StaticResource LabelTextFour}" Grid.Column="1"/>
+                                            <Grid ColumnDefinitions="auto,auto" Grid.Column="2" HorizontalOptions="Center">
+                                                <Label Text="{Binding Score}" Style="{StaticResource LabelTextFour}" TextColor="Cyan"/>
+                                                <Label Text="/20" Style="{StaticResource LabelTextFour}" Grid.Column="1"/>
+                                            </Grid>
+                                            <Label Text="{Binding AttemptDate}" Style="{StaticResource LabelTextFour}" Grid.Column="3"/>
+                                        </Grid>
+                                    </Grid>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </FlexLayout>
+                </Grid>
+            </Border>
+        </Grid>
+        <Grid Grid.Row="1" RowDefinitions="auto,*" Padding="100" IsVisible="{Binding IsLeaderBoardPage}">
+            <Button Text="Refresh" HorizontalOptions="End" WidthRequest="100" BorderColor="White" BorderWidth="2" Margin="0,0,0,10"
+            Command="{Binding RefreshCommand}"/>
+            <Border Stroke="White" StrokeThickness="2" Grid.Row="1">
+                <Grid RowDefinitions="auto,*">
+                    <Grid RowDefinitions="auto,auto">
+                        <Grid HeightRequest="75" ColumnDefinitions="*,1.5*">
+                            <Grid ColumnDefinitions="*,*">
+                                <Label Text="Name" Style="{StaticResource LabelTextThree}"/>
+                                <Label Text="Description" Style="{StaticResource LabelTextThree}" Grid.Column="1"/>
+                            </Grid>
+                            <Grid ColumnDefinitions="*,*,*,*" Grid.Column="1">
+                                <Label Text="Section" Style="{StaticResource LabelTextThree}"/>
+                                <Label Text="Quiz" Style="{StaticResource LabelTextThree}" Grid.Column="1"/>
+                                <Label Text="Score" Style="{StaticResource LabelTextThree}" Grid.Column="2"/>
+                                <Label Text="Date" Style="{StaticResource LabelTextThree}" Grid.Column="3"/>
+                            </Grid>
+                        </Grid>
+                        <Rectangle Stroke="White" HeightRequest="2" Grid.Row="1"/>
+                    </Grid>
+                    <FlexLayout HeightRequest="550" Direction="Column" Grid.Row="1">
+                        <CollectionView ItemsSource="{Binding Att}">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="Model:Attempt">
+                                    <Grid HeightRequest="75" ColumnDefinitions="*,1.5*">
+                                        <Grid ColumnDefinitions="*,*">
+                                            <Label Text="{Binding Student.Username}" Style="{StaticResource LabelTextFour}" FontSize="28"/>
+                                            <Label Text="Good student" Style="{StaticResource LabelTextFour}" Grid.Column="1"/>
+                                        </Grid>
+                                        <Grid ColumnDefinitions="*,*,*,*" Grid.Column="1">
+                                            <Label Text="{Binding SectionName}" Style="{StaticResource LabelTextFour}"/>
+                                            <Label Text="{Binding QuizName}" Style="{StaticResource LabelTextFour}" Grid.Column="1"/>
+                                            <Grid ColumnDefinitions="auto,auto" Grid.Column="2" HorizontalOptions="Center">
+                                                <Label Text="{Binding Score}" Style="{StaticResource LabelTextFour}" TextColor="Cyan"/>
+                                                <Label Text="/20" Style="{StaticResource LabelTextFour}" Grid.Column="1"/>
+                                            </Grid>
+                                            <Label Text="{Binding AttemptDate}" Style="{StaticResource LabelTextFour}" Grid.Column="3"/>
+                                        </Grid>
+                                    </Grid>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </FlexLayout>
+                </Grid>
+            </Border>
+        </Grid>
+        <Grid ColumnDefinitions="*,*" Grid.Row="1" Padding="20" IsVisible="{Binding IsSettingPage}">
+            <Border>
+                <Label Text="Insert picture" VerticalOptions="Center" HorizontalOptions="Center" FontSize="24"/>
+            </Border>
+            <Grid Padding="20" RowDefinitions="*,*,*" Grid.Column="1" HorizontalOptions="Start">
+                <Grid WidthRequest="300" HeightRequest="100" RowDefinitions="auto,auto">
+                    <HorizontalStackLayout>
+                        <Label Text="Student ID" Margin="10"/>
+                        <Label Text="*ID remain unchange" TextColor="Red" Margin="10"/>
+                    </HorizontalStackLayout>
+                    <Border Stroke="White" StrokeShape="RoundRectangle 20" Padding="10" Grid.Row="1">
+                        <Label Text="{Binding Student.Id}" VerticalOptions="Center" FontSize="24"/>
+                    </Border>
+                </Grid>
+                <Grid WidthRequest="300" HeightRequest="100" RowDefinitions="auto,auto" Grid.Row="1">
+                    <Label Text="Username" Margin="10"/>
+                    <Border Stroke="White" StrokeShape="RoundRectangle 20" Padding="10" Grid.Row="1">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer CommandParameter="{Binding Student.Username}"
+                                          Command="{Binding ModifyCommand}"/>
+                        </Border.GestureRecognizers>
+                        <Label Text="{Binding Student.Username}" VerticalOptions="Center" FontSize="24"/>
+                    </Border>
+                </Grid>
+                <Grid WidthRequest="300" HeightRequest="100" RowDefinitions="auto,auto" Grid.Row="2">
+                    <Label Text="Password" Margin="10"/>
+                    <Border Stroke="White" StrokeShape="RoundRectangle 20" Padding="10" Grid.Row="1">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer CommandParameter="{Binding Student.Password}"
+                                                  Command="{Binding ModifyCommand}"/>
+                        </Border.GestureRecognizers>
+                        <Label Text="{Binding Student.Password}" VerticalOptions="Center" FontSize="24"/>
+                    </Border>
+                </Grid>
+            </Grid>
+        </Grid>
+    </Grid>
+</ContentPage>

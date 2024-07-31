@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FinaleProject.View.QuizPage"
+             Title="{Binding Quiz.Name}"
+             xmlns:ViewModel="clr-namespace:FinaleProject.ViewModel"
+             xmlns:Model="clr-namespace:FinaleProject.Model"
+             x:DataType="ViewModel:QuizViewModel"
+             Padding="0,50,0,0">
+    <Grid RowDefinitions="auto,auto,auto,auto,auto" HorizontalOptions="Center" RowSpacing="10">
+        <HorizontalStackLayout HorizontalOptions="Center" Spacing="10">
+            <Label Text="{Binding Quiz.Name}" FontSize="24" TextColor="Red"/>
+            <Label Text="Quizzes have a maximun of 20 questions" HorizontalOptions="Center" FontSize="24"/>
+        </HorizontalStackLayout>
+        <Label Text="Please select the question to add in quiz" Grid.Row="1" HorizontalOptions="Center" FontSize="20"/>
+        <Button Text="Select Questions" WidthRequest="150" BorderColor="White" BorderWidth="2" Grid.Row="2" Command="{Binding SelectQuestionCommand}"/>
+        <FlexLayout Direction="Row" Grid.Row="3" WidthRequest="600" HeightRequest="600">
+            <CollectionView ItemsSource="{Binding ShowQuestions}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="Model:Question">
+                        <Border Stroke="White" StrokeShape="RoundRectangle 10" Padding="10">
+                            <HorizontalStackLayout>
+                                <Label Text="{Binding Id}" FontSize="22"/>
+                                <Label Text="." FontSize="22" Margin="0,0,10,0"/>
+                                <Label Text="{Binding Title}" FontSize="22"/>
+                            </HorizontalStackLayout>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </FlexLayout>
+        <FlexLayout JustifyContent="SpaceBetween" Grid.Row="4" WidthRequest="500">
+            <Button Text="Show question" WidthRequest="150" BorderColor="White" BorderWidth="2" Command="{Binding ShowCommand}"/>
+            <Button Text="Back" WidthRequest="150" BorderColor="White" BorderWidth="2" Command="{Binding NavigateBackCommand}"/>
+        </FlexLayout>
+
+    </Grid>
+</ContentPage>

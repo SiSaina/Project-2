@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FinaleProject.View.SectionPage"
+             xmlns:ViewModel="clr-namespace:FinaleProject.ViewModel"
+             xmlns:Model="clr-namespace:FinaleProject.Model"
+             Title="{Binding Section.Name}"
+             x:DataType="ViewModel:SectionViewModel">
+
+    <Grid ColumnDefinitions="*,*" RowDefinitions="auto,auto" Margin="30">
+        <HorizontalStackLayout HorizontalOptions="Center" Spacing="5" Grid.ColumnSpan="2">
+            <Label Text="{Binding Section.Name}" FontSize="22" VerticalOptions="Center" TextColor="#00B4D8"/>
+            <Label Text="section page is for adding quizzes and questions." FontSize="22" VerticalOptions="Center"/>
+            <Button Text="Back" WidthRequest="100" BorderColor="White" BorderWidth="2" Command="{Binding NavigateBackCommand}"/>
+            <Button Text="Save" WidthRequest="100" BorderColor="White" BorderWidth="2" Command="{Binding SaveCommand}"/>
+        </HorizontalStackLayout>
+        <FlexLayout Direction="Column" AlignItems="Center" Grid.Row="1">
+            <Entry Text="{Binding Pass}" WidthRequest="400" Margin="10" Placeholder="Quiz Name" HeightRequest="50"/>
+            <Button Text="Add quiz" WidthRequest="150" BorderColor="White" BorderWidth="2" Command="{Binding AddQuizCommand}"/>
+            <CollectionView ItemsSource="{Binding Section.Quizzes}" Margin="10" WidthRequest="500" HeightRequest="650">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="Model:Quiz">
+                        <Grid ColumnDefinitions="*,auto,auto" ColumnSpacing="10" Padding="5">
+                            <Border Stroke="White" StrokeShape="RoundRectangle 10" Padding="10">
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        CommandParameter="{Binding Id}"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModel:SectionViewModel}}, Path=NavigateQuizCommand}"/>
+                                </Border.GestureRecognizers>
+                                <Grid ColumnDefinitions="auto,auto,auto">
+                                    <Label Text="{Binding Id}" FontSize="18"/>
+                                    <Label Text="." Grid.Column="1" FontSize="18" Margin="0,0,10,0"/>
+                                    <Label Text="{Binding Name}" FontSize="18" Grid.Column="2"/>
+                                </Grid>
+                            </Border>
+                            <Button Text="Modify" Grid.Column="1" BorderColor="White" BorderWidth="2" CommandParameter="{Binding .}"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModel:SectionViewModel}}, Path=ModifyQuizCommand}"/>
+                            <Button Text="Remove" Grid.Column="2" BorderColor="White" BorderWidth="2" CommandParameter="{Binding .}"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModel:SectionViewModel}}, Path=DeleteQuizCommand}"/>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </FlexLayout>
+        <FlexLayout Direction="Column" AlignItems="Center" Grid.Column="1" Grid.Row="1">
+            <Grid RowDefinitions="*,*" HeightRequest="150" Margin="0,5,0,0">
+                <Entry Text="{Binding Text}" Placeholder="Question title" WidthRequest="400" HeightRequest="50" Margin="10"/>
+                <Button Text="Add Question" HeightRequest="30" WidthRequest="150" BorderColor="White" BorderWidth="2" 
+                        Grid.Row="1" Command="{Binding AddQuestionCommand}"/>
+            </Grid>
+            <CollectionView ItemsSource="{Binding Section.Questions}" Margin="10" WidthRequest="500" HeightRequest="650">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="Model:Question">
+                        <Grid RowDefinitions="*,*">
+                            <Border Stroke="White" StrokeShape="RoundRectangle 20" Padding="20,10,10,10">
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer 
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModel:SectionViewModel}}, Path=NavigateQuestionCommand}"
+                                        CommandParameter="{Binding Id}"/>
+                                </Border.GestureRecognizers>
+                                <Grid ColumnDefinitions="auto,auto,*" Margin="0" ColumnSpacing="0">
+                                    <Label Text="{Binding Id}" FontSize="18"/>
+                                    <Label Text="." FontSize="18" Grid.Column="1" VerticalOptions="Start"/>
+                                    <ScrollView Grid.Column="2">
+                                        <Label Text="{Binding Title}" FontSize="18" Margin="10,0,0,0"/>
+                                    </ScrollView>
+                                </Grid>
+                            </Border>
+                            <Grid ColumnDefinitions="*,*" Margin="10,10,10,30" Grid.Row="1">
+                                <Button Text="Modify" BorderColor="White" BorderWidth="1" 
+                                        WidthRequest="100" BackgroundColor="#00B4D8" CommandParameter="{Binding .}"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModel:SectionViewModel}}, Path=ModifyQuestionCommand}"/>
+                                <Button Text="Remove" BorderColor="White" BorderWidth="1" 
+                                        WidthRequest="100" BackgroundColor="#E52B50" Grid.Column="1" CommandParameter="{Binding .}"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type ViewModel:SectionViewModel}}, Path=DeleteQuestionCommand}"/>
+                            </Grid>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </FlexLayout>
+    </Grid>
+</ContentPage>
